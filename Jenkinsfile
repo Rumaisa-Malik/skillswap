@@ -10,30 +10,50 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                checkout scm
+                git branch: 'main',
+                    url: 'https://github.com/mudasirshamshadali/skillswap.git'
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Building SkillSwap project...'
-                bat 'mvn clean package'
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn test'
             }
         }
 
         stage('Archive WAR') {
             steps {
-                archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
+                archiveArtifacts artifacts: 'target/*.war', fingerprint: true
+            }
+        }
+
+        stage('Deploy to Tomcat') {
+            steps {
+                deploy adapters: [
+                    tomcat9(
+                        credentialsId: 'tomcat-creds',
+                        path: '',
+                        url: 'http://localhost:8080'
+                    )
+                ],
+                contextPath: 'SkillSwap',
+                war: 'target/*.war'
             }
         }
     }
 
     post {
         success {
-            echo '✅ Build successful!'
+            echo '✅ SkillSwap Pipeline Successful'
         }
         failure {
-            echo '❌ Build failed!'
+            echo '❌ SkillSwap Pipeline Failed'
         }
     }
 }
