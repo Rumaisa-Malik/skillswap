@@ -15,15 +15,16 @@
     <!-- ===== PROPERTIES ===== -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <!-- NetBeans 25 + Tomcat 10 work best with Java 17 -->
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <jakartaee.version>10.0.0</jakartaee.version>
     </properties>
 
     <!-- ===== DEPENDENCIES ===== -->
     <dependencies>
 
-        <!-- Jakarta EE (Servlets, JSP, JSTL) -->
+        <!-- Jakarta EE API (Tomcat 10 compatible) -->
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-api</artifactId>
@@ -31,13 +32,12 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- ✅ MySQL JDBC Connector (STABLE & AVAILABLE) -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.32</version>
-        </dependency>
-
+        <!-- MySQL JDBC (modern artifact) -->
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.33</version>
+</dependency>
     </dependencies>
 
     <!-- ===== BUILD CONFIG ===== -->
@@ -46,22 +46,18 @@
 
         <plugins>
 
-            <!-- Java Compiler -->
+            <!-- Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>11</source>
-                    <target>11</target>
-                </configuration>
+                <version>3.11.0</version>
             </plugin>
 
             <!-- WAR Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.2</version>
+                <version>3.4.0</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
