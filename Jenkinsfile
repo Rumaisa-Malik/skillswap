@@ -2,40 +2,33 @@ pipeline {
     agent any
 
     tools {
-        maven 'maven3'
+        maven 'Maven-3.9.12'
+        jdk 'JDK-17'
     }
 
     stages {
+
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/Rumaisa-Malik/skillswap.git',
-                    credentialsId: 'github-creds'
+                    credentialsId: 'github-skillswap',
+                    url: 'https://github.com/Rumaisa-Malik/skillswap.git'
             }
         }
 
         stage('Build') {
             steps {
-                sh '"C:/Program Files/Apache/apache-maven-3.9.12/bin/mvn.cmd" clean package'
+                bat 'mvn clean package'
             }
         }
 
-        stage('Test') {
+        stage('Deploy to Tomcat') {
             steps {
-                sh '"C:/Program Files/Apache/apache-maven-3.9.12/bin/mvn.cmd" test'
-            }
-        }
-
-        stage('Deploy to Tomcat 10') {
-            steps {
-                deploy adapters: [
-                    tomcat10(
-                        credentialsId: 'tomcat10-creds',
-                        url: 'http://localhost:8082'
-                    )
-                ],
-                contextPath: 'skillswap',
-                war: 'target/SkillSwap.war'
+                bat '''
+                curl -u admin:admin ^
+                -T target/SkillSwap.war ^
+                http://localhost:8082/manager/text/deploy?path=/skillswap&update=true
+                '''
             }
         }
     }
