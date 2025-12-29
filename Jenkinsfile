@@ -22,14 +22,15 @@ pipeline {
             }
         }
 
-        stage('Deploy to Tomcat') {
-            steps {
-                bat '''
-                curl -u admin:admin ^
-                -T target/SkillSwap.war ^
-                http://localhost:8082/manager/text/deploy?path=/skillswap&update=true
-                '''
-            }
+stage('Deploy to Tomcat') {
+    steps {
+        bat '''
+        curl -u admin:admin ^
+        -T target/SkillSwap.war ^
+        "http://localhost:8082/manager/text/deploy?path=/skillswap&update=true"
+        '''
+    }
+}
         }
     }
 }
