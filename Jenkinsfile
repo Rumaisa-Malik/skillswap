@@ -2,58 +2,41 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven'
-        jdk 'JDK'
+        maven 'maven3'
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/mudasirshamshadali/skillswap.git'
+                    url: 'https://github.com/Rumaisa-Malik/skillswap.git',
+                    credentialsId: 'github-creds'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                sh '"C:/Program Files/Apache/apache-maven-3.9.12/bin/mvn.cmd" clean package'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'mvn test'
+                sh '"C:/Program Files/Apache/apache-maven-3.9.12/bin/mvn.cmd" test'
             }
         }
 
-        stage('Archive WAR') {
-            steps {
-                archiveArtifacts artifacts: 'target/*.war', fingerprint: true
-            }
-        }
-
-        stage('Deploy to Tomcat') {
+        stage('Deploy to Tomcat 10') {
             steps {
                 deploy adapters: [
-                    tomcat9(
-                        credentialsId: 'tomcat-creds',
-                        path: '',
-                        url: 'http://localhost:8080'
+                    tomcat10(
+                        credentialsId: 'tomcat10-creds',
+                        url: 'http://localhost:8082'
                     )
                 ],
-                contextPath: 'SkillSwap',
-                war: 'target/*.war'
+                contextPath: 'skillswap',
+                war: 'target/SkillSwap.war'
             }
-        }
-    }
-
-    post {
-        success {
-            echo '✅ SkillSwap Pipeline Successful'
-        }
-        failure {
-            echo '❌ SkillSwap Pipeline Failed'
         }
     }
 }
