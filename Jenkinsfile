@@ -18,14 +18,23 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat '''
-                mvn -version
-                mvn clean package
-                '''
+                bat 'mvn clean compile'
             }
         }
 
-        stage('Deploy to Tomcat') {
+        stage('Unit Test') {
+            steps {
+                bat 'mvn test'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                bat 'mvn package'
+            }
+        }
+
+        stage('Deploy') {
             steps {
                 bat '''
                 curl -u admin:admin ^
