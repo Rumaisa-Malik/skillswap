@@ -144,7 +144,7 @@
     <div class="menu">
 
         <!-- DASHBOARD -->
-        <a href="dashboard" target="contentFrame" class="active" onclick="setActive(this)">
+        <a href="My dashboard" target="contentFrame" class="active" onclick="setActive(this)">
             <i class="fa-solid fa-house"></i> Dashboard
         </a>
 
