@@ -168,14 +168,6 @@
             </a>
 
 
-        <a href="messages.jsp" target="contentFrame" onclick="setActive(this)">
-            <i class="fa-solid fa-envelope"></i> Messages
-        </a>
-
-        <a href="feedback.jsp" target="contentFrame" onclick="setActive(this)">
-            <i class="fa-solid fa-star"></i> Feedback
-        </a>
-
         <a href="logout">
             <i class="fa-solid fa-right-from-bracket"></i> Logout
         </a>
