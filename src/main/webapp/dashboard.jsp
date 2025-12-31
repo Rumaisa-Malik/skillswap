@@ -145,7 +145,7 @@
 
         <!-- DASHBOARD -->
         <a href="My dashboard" target="contentFrame" class="active" onclick="setActive(this)">
-            <i class="fa-solid fa-house"></i> Dashboard
+            <i class="fa-solid fa-house"></i> My Dashboard
         </a>
 
         <a href="skills" target="contentFrame" onclick="setActive(this)">
